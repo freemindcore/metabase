@@ -1487,7 +1487,12 @@ export default class StructuredQuery extends AtomicQuery {
     return queries;
   }
 
-  dependentTableIds({ includeFKs = true } = {}) {
+  /**
+   * Returns a list of table IDs this query may reference. If includeFKs is `true` then tables implicitly linked by
+   * foreign keys are included. Note that implicitly linked tables will only be included if the metadata for the table
+   * itself has been loaded, therefore you may need to check this repeatedly after loading new tables.
+   */
+  dependentTableIds({ includeFKs = true } = {}): TableId[] {
     const tableIds = new Set();
 
     // source-table, if set
